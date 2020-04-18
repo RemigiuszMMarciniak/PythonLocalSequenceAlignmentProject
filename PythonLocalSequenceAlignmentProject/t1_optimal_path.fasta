@@ -1,0 +1,8 @@
+>seq1 1st
+ATCG
+>seq2 2nd
+AACG
+>optimal path 
+ATCG
+|x||
+AACG
