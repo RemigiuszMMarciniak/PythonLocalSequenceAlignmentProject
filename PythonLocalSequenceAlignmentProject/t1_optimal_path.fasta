@@ -1,8 +1,8 @@
 >seq1 1st
-ATCG
+GCAGTC
 >seq2 2nd
-AACG
+CTAGG
 >optimal path 
-ATCG
-|x||
-AACG
+AG
+||
+AG

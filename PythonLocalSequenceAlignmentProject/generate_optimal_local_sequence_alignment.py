@@ -8,10 +8,10 @@ def generate_optimal_local_sequence_alignment(seq1, seq2, gap_score, substitutio
     score_matrix_displayed = [["" for x in range(len(seq2) + 2)] for y in range(len(seq1) + 2)]
 
     # score
-
-    print("seq1 length " + str(len(seq1)))
-    print("seq2 length " + str(len(seq2)))
-    print(substitution_matrix)
+    #
+    # print("seq1 length " + str(len(seq1)))
+    # print("seq2 length " + str(len(seq2)))
+    # print(substitution_matrix)
 
     for i in range(len(score_matrix)):
         for j in range(len(score_matrix[i])):
@@ -19,44 +19,48 @@ def generate_optimal_local_sequence_alignment(seq1, seq2, gap_score, substitutio
                 score_matrix[i][j] = 0
             else:
                 if i == 0 and j > 0:
-                    score_matrix[i][j] = max((j * int(gap_score)), 0)
+                    score_matrix[i][j] = max(score_matrix[i][j-1], 0)
                 elif i > 0 and j == 0:
-                    score_matrix[i][j] = max((i * int(gap_score)), 0)
+                    score_matrix[i][j] = max(score_matrix[i-1][j], 0)
                 elif i >= 1 and j >= 1:
+                    # print(i," , ",j," i , j")
                     del_score = score_matrix[i - 1][j] + int(gap_score)
                     ins_score = score_matrix[i][j - 1] + int(gap_score)
                     sub_score = score_matrix[i - 1][j - 1] + match_mismatch_score(seq1[i - 1], seq2[j - 1],
                                                                                   substitution_matrix)
                     score_matrix[i][j] = max(int(del_score), int(ins_score), int(sub_score), 0)
-                    print("Seq1: ", seq1[i - 1])
-                    print("Seq2: ", seq2[j - 1])
-                    print("match score: ", match_mismatch_score(seq1[i - 1], seq2[j - 1], substitution_matrix))
-                    print(str(del_score) + " " + str(ins_score) + " " + str(sub_score))
+                    # print("Seq1: ", seq1[i - 1])
+                    # print("Seq2: ", seq2[j - 1])
+                    # print("match score: ", match_mismatch_score(seq1[i - 1], seq2[j - 1], substitution_matrix))
+                    # print(str(del_score) + " " + str(ins_score) + " " + str(sub_score))
 
-    for x in range(len(score_matrix)):
-        for y in range(len(score_matrix[x])):
-            print(score_matrix[x][y], end=" ")
-        print()
 
-    for x in range(len(score_matrix_displayed)):
-        for y in range(len(score_matrix_displayed[x])):
-            if x == 0 and y == 0:
-                score_matrix_displayed[x][y] = "#"
-            if x == 0 and y == 1:
-                score_matrix_displayed[x][y] = "-"
-            if x == 1 and y == 0:
-                score_matrix_displayed[x][y] = "-"
-            elif x > 1 and y == 0:
-                score_matrix_displayed[x][y] = seq1[x - 2]
-            elif x == 0 and y > 1:
-                score_matrix_displayed[x][y] = seq2[y - 2]
-            elif x >= 1 and y >= 1:
-                score_matrix_displayed[x][y] = score_matrix[x - 1][y - 1]
-
-    for x in range(len(score_matrix_displayed)):
-        for y in range(len(score_matrix_displayed[x])):
-            print(score_matrix_displayed[x][y], end=" ")
-        print()
+    # displaying
+    #
+    # for x in range(len(score_matrix)):
+    #     for y in range(len(score_matrix[x])):
+    #         print(score_matrix[x][y], end=" ")
+    #     print()
+    #
+    # for x in range(len(score_matrix_displayed)):
+    #     for y in range(len(score_matrix_displayed[x])):
+    #         if x == 0 and y == 0:
+    #             score_matrix_displayed[x][y] = "#"
+    #         if x == 0 and y == 1:
+    #             score_matrix_displayed[x][y] = "-"
+    #         if x == 1 and y == 0:
+    #             score_matrix_displayed[x][y] = "-"
+    #         elif x > 1 and y == 0:
+    #             score_matrix_displayed[x][y] = seq1[x - 2]
+    #         elif x == 0 and y > 1:
+    #             score_matrix_displayed[x][y] = seq2[y - 2]
+    #         elif x >= 1 and y >= 1:
+    #             score_matrix_displayed[x][y] = score_matrix[x - 1][y - 1]
+    #
+    # for x in range(len(score_matrix_displayed)):
+    #     for y in range(len(score_matrix_displayed[x])):
+    #         print(score_matrix_displayed[x][y], end=" ")
+    #     print()
 
     # traceback
     print("traceback")
@@ -71,7 +75,7 @@ def generate_optimal_local_sequence_alignment(seq1, seq2, gap_score, substitutio
                 max_i = x
                 max_j = y
                 max_value = value
-                print(max_i, " ", max_j , " ", max_value)
+                # print(max_i, " ", max_j , " ", max_value)
 
     i_path = []
     j_path = []
@@ -80,24 +84,54 @@ def generate_optimal_local_sequence_alignment(seq1, seq2, gap_score, substitutio
     aln1 = ""
     aln2 = ""
     while True:
+        # stops the traceback if the score matrix[i][j] equals to 0.
+        if score_matrix[max_i][max_j] == 0:
+            i_path.append(max_i)
+            j_path.append(max_j)
+            break
         if max_i - 1 < 0 or max_j - 1 < 0:
+            i_path.append(max_i)
+            j_path.append(max_j)
             break
         # print(score_matrix[max_i][max_j])
         # print(max_i, " ", max_j)
+        if score_matrix[max_i][max_j] == score_matrix[max_i - 1][max_j - 1] + match_mismatch_score(seq1[max_i - 1],
+                                                                                                   seq2[max_j - 1],
+                                                                                                   substitution_matrix):
+            aln1 = seq1[max_i - 1] + aln1
+            aln2 = seq2[max_j - 1] + aln2
+            i_path.append(max_i)
+            j_path.append(max_j)
+            max_i = max_i - 1
+            max_j = max_j - 1
+        else:
+            if score_matrix[max_i][max_j] == score_matrix[max_i - 1][max_j] + int(gap_score):
+                aln2 = "-" + aln2
+                aln1 = seq1[max_i - 1] + aln1
+                i_path.append(max_i)
+                j_path.append(max_j)
+                max_i = max_i - 1
+            else:
+                aln2 = seq2[max_j - 1] + aln2
+                aln1 = "-" + aln1
+                i_path.append(max_i)
+                j_path.append(max_j)
+                max_j = max_j - 1
 
-        print("seq1 ", seq1[max_i - 1])
-        print("seq2 ", seq2[max_j - 1])
-        aln1 = seq1[max_i - 1] + aln1
-        aln2 = seq2[max_j - 1] + aln2
-        i_path.append(max_i)
-        j_path.append(max_j)
+        # print("seq1 ", seq1[max_i - 1])
+        # print("seq2 ", seq2[max_j - 1])
+        # aln1 = seq1[max_i - 1] + aln1
+        # aln2 = seq2[max_j - 1] + aln2
+        # i_path.append(max_i)
+        # j_path.append(max_j)
+
         # <= or <
-        if score_matrix[max_i - 1][max_j - 1] < 0:
-            break
-        max_i = max_i - 1
-        max_j = max_j - 1
-    print(aln1)
-    print(aln2)
+        # if score_matrix[max_i - 1][max_j - 1] < 0:
+        #     break
+        # max_i = max_i - 1
+        # max_j = max_j - 1
+    # print(aln1)
+    # print(aln2)
     # print("i path", i_path)
     # print("j path", j_path)
 
@@ -106,17 +140,18 @@ def generate_optimal_local_sequence_alignment(seq1, seq2, gap_score, substitutio
     for x in range(len(aln1)):
         if aln1[x] == aln2[x]:
             identity.append("|")
+
         else:
             identity.append("x")
     print("################# ####### #################")
     print("################# SUCCESS #################")
     print("################# ####### #################")
     print("Path has been generated succesfully.")
-    print("aln1: " + str(aln1))
-    print("      " + str("".join(identity)))
-    print("aln2: " + str(aln2))
-    print("i path: " + str(i_path))
-    print("j path: " + str(j_path))
+    # print("aln1: " + str(aln1))
+    # print("      " + str("".join(identity)))
+    # print("aln2: " + str(aln2))
+    # print("i path: " + str(i_path))
+    # print("j path: " + str(j_path))
 
     optimal_path = aln1 + '\n' + "".join(identity) + '\n' + aln2
     return score_matrix, optimal_path, i_path, j_path, score_matrix_displayed,aln1,aln2
@@ -161,7 +196,7 @@ def match_mismatch_score(seq1, seq2, substitution_matrix):
         elif seq2 == "T" or seq2 == "U":
             sub_score = substitution_matrix[3][3]
 
-    print("subscore: ", sub_score)
+    # print("subscore: ", sub_score)
     return sub_score
 
     #

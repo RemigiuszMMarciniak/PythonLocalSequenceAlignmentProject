@@ -7,23 +7,23 @@ def save_score_table_and_optimal_path_to_files(pptimal_path,score_matrix,score_m
             identity.append("|")
         else:
             identity.append("x")
-    print("################# ####### #################")
-    print("################# SUCCESS #################")
-    print("################# ####### #################")
-    print("Path has been generated succesfully.")
-    print("aln1: " + str(aln1))
-    print("      " + str("".join(identity)))
-    print("aln2: " + str(aln2))
-    print("i path: " + str(i_path))
-    print("j path: " + str(j_path))
+    # print("################# ####### #################")
+    # print("################# SUCCESS #################")
+    # print("################# ####### #################")
+    # print("Path has been generated succesfully.")
+    # print("aln1: " + str(aln1))
+    # print("      " + str("".join(identity)))
+    # print("aln2: " + str(aln2))
+    # print("i path: " + str(i_path))
+    # print("j path: " + str(j_path))
 
     optimal_path = aln1 + '\n' + "".join(identity) + '\n' + aln2
 
     description = ">seq1 " + str("".join(label1)) + '\n' + \
-                    str(aln1) + '\n' + \
+                    str(seq1) + '\n' + \
                   ">seq2 " + str("".join(label2)) + '\n' + \
-                    str(aln2) + '\n' + ">optimal path " + '\n' + optimal_path
-    print(description)
+                    str(seq2) + '\n' + ">optimal path " + '\n' + optimal_path
+    # print(description)
     f = open(path_file_name + "_optimal_path.fasta", "w+")
     f.write(description)
     f.close()
@@ -47,13 +47,13 @@ def save_score_table_and_optimal_path_to_files(pptimal_path,score_matrix,score_m
                 if i_path[z] == x and j_path[z] == y:
                     score_table_raw[x][y] = str(score_table_raw[x][y]) + "*"
 
-    print("ipath: " + str(i_path))
-    print("jpath: " + str(j_path))
+    # print("ipath: " + str(i_path))
+    # print("jpath: " + str(j_path))
 
-    for x in range(len(score_table_raw)):
-        for y in range(len(score_table_raw[x])):
-            print(score_table_raw[x][y], end=" ")
-        print()
+    # for x in range(len(score_table_raw)):
+    #     for y in range(len(score_table_raw[x])):
+    #         print(score_table_raw[x][y], end=" ")
+    #     print()
 
     score_matrix_to_be_shown = [["" for x in range(len(score_table_raw[0]) + 1)] for y in
                                 range(len(score_table_raw) + 1)]

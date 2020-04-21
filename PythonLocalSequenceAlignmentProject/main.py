@@ -13,32 +13,32 @@ def main():
     print("Welcome in local sequence alignment program.")
 
     parameters_sys_argv = sys.argv[1:]
-    print(parameters_sys_argv)
+    # print(parameters_sys_argv)
     insert_type = parameters_sys_argv[0]
     if insert_type == "manual":
         insert_type, seq1, label1, seq2, label2, gap_score, path_file_name, score_table_file_name, substitution_matrix_path = parameters_sys_argv
-        print()
-        print("###########################################")
-        print(insert_type)
-        print(seq1)
-        print(label1)
-        print(seq2)
-        print(label2)
-        print("###########################################")
-        print()
+        # print()
+        # print("###########################################")
+        # print(insert_type)
+        # print(seq1)
+        # print(label1)
+        # print(seq2)
+        # print(label2)
+        # print("###########################################")
+        # print()
     elif insert_type == "file":
         insert_type, fasta_name1, fasta_name2, gap_score, path_file_name, score_table_file_name, substitution_matrix_path = parameters_sys_argv
-        print()
-        print("###########################################")
-        print(insert_type)
-        print(fasta_name1)
-        print(fasta_name2)
-        print("###########################################")
-        print()
+        # print()
+        # print("###########################################")
+        # print(insert_type)
+        # print(fasta_name1)
+        # print(fasta_name2)
+        # print("###########################################")
+        # print()
 
-        file1 = read_file(fasta_name1)
+        file1 = read_file.read_file(fasta_name1)
         if file1 is not None:
-            file1 = string_to_array(file1)
+            file1 = string_to_array.string_to_array(file1)
             seq1 = file1[0]
             label1 = file1[1]
         else:
@@ -46,9 +46,9 @@ def main():
             print("################# ERROR #################")
             print("################# ##### #################")
             print("First file is empty")
-        file2 = read_file(fasta_name2)
+        file2 = read_file.read_file(fasta_name2)
         if file2 is not None:
-            file2 = string_to_array(file2)
+            file2 = string_to_array.string_to_array(file2)
             seq2 = file2[0]
             label2 = file2[1]
         else:
@@ -59,23 +59,23 @@ def main():
 
     elif insert_type == "server":
         insert_type, url1, url2, gap_score, path_file_name, score_table_file_name, substitution_matrix_path = parameters_sys_argv
-        print()
-        print("###########################################")
-        print(insert_type)
-        print(url1)
-        print(url2)
-        print("###########################################")
-        print()
+        # print()
+        # print("###########################################")
+        # print(insert_type)
+        # print(url1)
+        # print(url2)
+        # print("###########################################")
+        # print()
 
         # db = 'nuccore'
         # # covid 2019 id = 1798174254
         # url_address = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=%s&id=%s&rettype=fasta&retmode=text" % (
         #     db, nuccore_id)
 
-        file1 = read_file_from_web(url1)
-        file1 = string_to_array(file1)
-        file2 = read_file_from_web(url2)
-        file2 = string_to_array(file2)
+        file1 = read_file_from_web.read_file_from_web(url1)
+        file1 = string_to_array.string_to_array(file1)
+        file2 = read_file_from_web.read_file_from_web(url2)
+        file2 = string_to_array.string_to_array(file2)
 
         seq1 = file1[1]
         label1 = file1[0]
@@ -101,14 +101,14 @@ def main():
         print("Substitution matrix is empty")
         sys.exit(-1)
 
-    print(label1)
-    print(seq1)
-    print(label2)
-    print(seq2)
-    print(gap_score)
-    print(path_file_name)
-    print(score_table_file_name)
-    print(substitution_matrix)
+    # print(label1)
+    # print(seq1)
+    # print(label2)
+    # print(seq2)
+    # print(gap_score)
+    # print(path_file_name)
+    # print(score_table_file_name)
+    # print(substitution_matrix)
     print("################# ####### #################")
     print("################# SUCCESS #################")
     print("################# ####### #################")
@@ -119,13 +119,13 @@ def main():
     ###
     # algorithms
     ###
-    score_matrix, optimal_path, i_path, j_path, score_matrix_displayed,aln1,aln2 = generate_optimal_local_sequence_alignment. \
+    score_matrix, optimal_path, i_path, j_path, score_matrix_displayed, aln1, aln2 = generate_optimal_local_sequence_alignment. \
         generate_optimal_local_sequence_alignment(seq1, seq2, gap_score, substitution_matrix)
 
-    print(score_matrix_displayed)
-    save_score_table_and_optimal_path_to_files(optimal_path,score_matrix, score_matrix_displayed,
-                                               seq1,seq2,aln1,aln2,label1,label2,i_path,j_path,
-                                               path_file_name,score_table_file_name)
+    # print(score_matrix_displayed)
+    save_score_table_and_optimal_path_to_files(optimal_path, score_matrix, score_matrix_displayed,
+                                               seq1, seq2, aln1, aln2, label1, label2, i_path, j_path,
+                                               path_file_name, score_table_file_name)
 
     save_to_graph(score_matrix, i_path, j_path, score_table_file_name, seq1, seq2)
     print("################# ####### #################")

@@ -37,11 +37,11 @@ def substitution_matrix_converter(substitution_matrix_raw):
             else:
                 substitution_matrix_line_int_from_string[index] = int(substitution_matrix_line[x])
                 index = index + 1
-    print("sub matrix from string", substitution_matrix_line_int_from_string)
+    # print("sub matrix from string", substitution_matrix_line_int_from_string)
     z = 0
     for x in range(len(substitution_matrix)):
         for y in range(len(substitution_matrix[0])):
             substitution_matrix[x][y] = substitution_matrix_line_int_from_string[z]
             z = z + 1
-    print("sub matrix",substitution_matrix)
+    # print("sub matrix",substitution_matrix)
     return substitution_matrix

@@ -12,10 +12,16 @@ def save_to_graph(score_matrix, i_path, j_path, score_table_file_name, seq1, seq
                 if i_path[z] == x and j_path[z] == y:
                     path_matrix[x][y] = 1
     plt.figure()
-    description_first = str(seq2[:10])
-    description_second = str(seq1[:10])
-    plt.xlabel(str(description_first) + '...')
-    plt.ylabel(str(description_second) + '...')
+    description_first = str("".join(seq2[:9]))
+    description_second = str("".join(seq1[:9]))
+    if len(seq1) > 10:
+        plt.ylabel(str(description_second) + '...')
+    else:
+        plt.ylabel(str(description_second))
+    if len(seq2) > 10:
+        plt.xlabel(str(description_first) + '...')
+    else:
+        plt.xlabel(str(description_first))
     plt.title("Path")
     H = np.array(path_matrix)
     plt.imshow(H)
