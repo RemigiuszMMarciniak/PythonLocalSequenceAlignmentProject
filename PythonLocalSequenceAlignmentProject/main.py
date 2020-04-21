@@ -5,6 +5,7 @@ import string_to_array
 import read_file
 import generate_optimal_local_sequence_alignment
 from save_score_table_and_optimal_path_to_files import save_score_table_and_optimal_path_to_files
+from save_to_graph import save_to_graph
 from substitution_matrix_converter import substitution_matrix_converter
 
 
@@ -126,13 +127,7 @@ def main():
                                                seq1,seq2,aln1,aln2,label1,label2,i_path,j_path,
                                                path_file_name,score_table_file_name)
 
-    ###
-    # functions to save the data to file
-
-    # save_data_to_files(score_matrix, i_path, j_path, score, length, identity_count, gaps_count, optimal_path, seq1,
-    #                    seq2,
-    #                    mode, match_score, mismatch_score, gap_score, path_file_name, score_table_file_name)
-
+    save_to_graph(score_matrix, i_path, j_path, score_table_file_name, seq1, seq2)
     print("################# ####### #################")
     print("################# SUCCESS #################")
     print("################# ####### #################")
